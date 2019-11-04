@@ -9,11 +9,9 @@
 
 using namespace std;
 
-//Можно порекомендовать адреса вида 0x80000000, 0x80040000, 0x80080000 
 #define SIZE 1024
 
 /* Параметры: 1 - частота записи (сек), 2 - количество строк на запись */
-
 int main(int argc, char const *argv[])
 {
     ofstream file("out.txt", ios_base::app);
