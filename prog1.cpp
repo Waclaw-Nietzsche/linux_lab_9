@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
     int shmid, check;
     int wait = atoi(argv[1]);
     int iterations = atoi(argv[2]);
-    key_t key = ftok("prog1", 5);
+    key_t key = ftok("prog", 5);
 
     // Вернёт -1 если уже существует сегмент
     if ((check = shmget(key, SIZE, 0666 | IPC_CREAT | IPC_EXCL)) == -1)
@@ -43,7 +43,6 @@ int main(int argc, char const *argv[])
     }
     
     char *mutexvar = (char*) shmat(shmid, (void*)0, 0);
-    char *pvar = (char*) shmat(shmid, (void*)0, 0);
 
     if (check == -1)
     {
@@ -92,8 +91,10 @@ int main(int argc, char const *argv[])
     file.close();
     cout << getpid() << ": Finished..." << endl;
 
-    shmctl(shmid, IPC_RMID, NULL);
-    cout << getpid() << ": Memory deleted..." << endl;
-
+    if (check != -1)
+    {
+        shmctl(shmid, IPC_RMID, NULL);
+        cout << getpid() << ": Memory marked for delete..." << endl;
+    }
     return 0;
 }
